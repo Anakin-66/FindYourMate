@@ -1,6 +1,6 @@
 const { User } = require('../db/sequelizeSetup')
-const bcrypt = require('bcrypt')
-const { UniqueConstraintError, ValidationError } = require('sequelize')
+// const bcrypt = require('bcrypt')
+// const { UniqueConstraintError, ValidationError } = require('sequelize')
 
 // Middleware pour trouver tout les utilisateurs
 const findAllUsers = (req, res) => {
@@ -28,25 +28,25 @@ const findUserByPk = (req, res) => {
         })
 }
 
-const createUser = (req, res) => {
-    bcrypt.hash(req.body.password, 10)
-        .then((hash) => {
-            User.create({ ...req.body, password: hash })
-                .then((user) => {
-                    user.password = ""
-                    res.status(201).json({ message: `The user was created`, data: user })
-                })
-                .catch((error) => {
-                    if (error instanceof UniqueConstraintError || error instanceof ValidationError) {
-                        return res.status(400).json({ message: error.message })
-                    }
-                    res.status(500).json({ message: `The user could'nt be created`, data: error.message })
-                })
-        })
-        .catch(error => {
-            console.log(error.message)
-        })
-}
+// const createUser = (req, res) => {
+//     bcrypt.hash(req.body.password, 10)
+//         .then((hash) => {
+//             User.create({ ...req.body, password: hash })
+//                 .then((user) => {
+//                     user.password = ""
+//                     res.status(201).json({ message: `The user was created`, data: user })
+//                 })
+//                 .catch((error) => {
+//                     if (error instanceof UniqueConstraintError || error instanceof ValidationError) {
+//                         return res.status(400).json({ message: error.message })
+//                     }
+//                     res.status(500).json({ message: `The user could'nt be created`, data: error.message })
+//                 })
+//         })
+//         .catch(error => {
+//             console.log(error.message)
+//         })
+// }
 
 
-module.exports = { findAllUsers, findUserByPk, createUser }
+module.exports = { findAllUsers, findUserByPk }

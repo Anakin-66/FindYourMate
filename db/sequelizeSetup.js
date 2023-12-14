@@ -7,7 +7,7 @@ const ProfilModel = require('../models/profilModel')
 const InGameRanksModel = require('../models/inGameRanksModel')
 const InGameRoleModel = require('../models/inGameRoleModel')
 const InGameQueueModel = require('../models/inGameQueueModel')
-const { setUsers, setRoles } = require('../db/setDataSample')
+const { setUsers, setRoles, setProfiles } = require('../db/setDataSample')
 
 
 // Instance qui va communiquer avec Xampp
@@ -31,12 +31,19 @@ const InGameQueue = InGameQueueModel(sequelize, DataTypes)
 Role.hasMany(User)
 User.belongsTo(Role)
 
+User.hasMany(Profil)
+Profil.belongsTo(User)
+
+// Profil.hasMany(InGameRanksModel)
+// InGameRanksModel.belongsTo(Profil)
+
 
 // Synchronisation avec la BDD
 sequelize.sync({ force: true })
     .then(() => {
         setUsers(User)
         setRoles(Role)
+        setProfiles(Profil)
     })
     .catch(error => {
         console.log(error)
