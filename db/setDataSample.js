@@ -9,7 +9,7 @@ const setUsers = async (User) => {
             { username: "Dorian", password: "lol", RoleId: 3 }
         ];
 
-        // Utilisez Promise.all pour attendre toutes les promesses de hachage
+        // Promise.all pour attendre toutes les promesses de hachage
         const hashedPasswords = await Promise.all(
             usersData.map(async (user) => {
                 const hash = await bcrypt.hash(user.password, 10);
@@ -17,21 +17,20 @@ const setUsers = async (User) => {
             })
         );
 
-        // Utilisez Promise.all pour attendre toutes les promesses de création d'utilisateur
+        // Promise.all pour attendre toutes les promesses de création d'utilisateur
         await Promise.all(
             hashedPasswords.map(async (user) => {
                 await User.create(user);
             })
         );
 
-        console.log('Users created successfully.');
     } catch (error) {
         console.error('Error creating users:', error.message);
     }
 };
 
 
-const setProfiles = (Profil) => {
+const setProfils = (Profil) => {
     Profil.create({ gameName: "XxKevinxX" })
 }
 
@@ -41,4 +40,4 @@ const setRoles = (Role) => {
     Role.create({ label: "edit" })
 }
 
-module.exports = { setUsers, setRoles, setProfiles }
+module.exports = { setUsers, setRoles, setProfils }

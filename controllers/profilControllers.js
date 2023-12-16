@@ -15,9 +15,9 @@ const findProfilByPk = (req, res) => {
     Profil.findByPk(parseInt(req.params.id))
         .then(profil => {
             if (profil) {
-                res.json({ message: `The profil was found.`, data: profil })
+                res.json({ message: `The profile was found.`, data: profil })
             } else {
-                res.status(404).json({ message: `The profil could'nt be found.`, data: profil })
+                res.status(404).json({ message: `The profile could'nt be found.`, data: profil })
             }
         })
         .catch((error) => {
@@ -36,13 +36,13 @@ const createProfil = (req, res) => {
 
             Profil.create(newProfil)
                 .then((profil) => {
-                    res.status(201).json({ message: 'The profil was created', data: profil })
+                    res.status(201).json({ message: 'The profile was created', data: profil })
                 })
                 .catch((error) => {
                     if (error instanceof UniqueConstraintError || error instanceof ValidationError) {
                         return res.status(400).json({ message: error.message })
                     }
-                    res.status(500).json({ message: `The profil could'nt be created`, data: error.message })
+                    res.status(500).json({ message: `The profile could'nt be created`, data: error.message })
                 })
         })
         .catch(error => {

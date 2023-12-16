@@ -7,7 +7,7 @@ const ProfilModel = require('../models/profilModel')
 const InGameRanksModel = require('../models/inGameRanksModel')
 const InGameRoleModel = require('../models/inGameRoleModel')
 const InGameQueueModel = require('../models/inGameQueueModel')
-const { setUsers, setRoles, setProfiles } = require('../db/setDataSample')
+const { setUsers, setRoles, setProfils } = require('../db/setDataSample')
 
 
 // Instance qui va communiquer avec Xampp
@@ -43,7 +43,7 @@ sequelize.sync({ force: true })
     .then(() => {
         setUsers(User)
         setRoles(Role)
-        setProfiles(Profil)
+        setProfils(Profil)
     })
     .catch(error => {
         console.log(error)

@@ -3,6 +3,13 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken') 
 const SECRET_KEY = require('../configs/tokenData')
 
+// Déclaration de variable pour gérer la hiérarchie des rôles
+const rolesHierarchy = {
+    edit: ["edit"],
+    admin: ["admin", "edit"],
+    superadmin: ["superadmin", "admin", "edit"]
+}
+
 // Middleware login
 const login = (req, res) => {
     console.log(req.body);
@@ -51,5 +58,100 @@ const protect = (req, res, next) => {
     }
 }
 
+// Middleware pour les droits
+const restrict = (labelRole) => {
+    return (req, res, next) => {
+        User.findOne({
+            where: {
+                username: req.username
+            }
+        })
+            .then(user => {
+                Role.findByPk(user.RoleId)
+                    .then(role => {
+                        if (rolesHierarchy[role.label].includes(labelRole)) {
+                            next()
+                        } else {
+                            res.status(403).json({ message: `Insufficient rights` })
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error.message)
+                    })
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
+}
 
-module.exports = { login, protect }
+// Middleware propre aux utilisateurs
+const restrictToOwnUser = (model) => {
+    return (req, res, next) => {
+        User.findOne(
+            {
+                where:
+                    { username: req.username }
+            })
+            .then(user => {
+                if (!user) {
+                    return res.status(404).json({ message: `No users found.` })
+                }
+                // on teste d'abord si le user est admin
+                return Role.findByPk(user.RoleId)
+                    .then(role => {
+                        // role.label est le rôle issu du token 
+                        if (rolesHierarchy[role.label].includes('admin')) {
+                            return next()
+                        }
+                        model.findByPk(req.params.id)
+                            .then(ressource => {
+                                if (!ressource) return res.status(404).json({ message: `The resource doesn't exist.` })
+                                if (user.id === coworking.UserId) {
+                                    next()
+                                } else {
+                                    res.status(403).json({ message: `You're not the author of the resource.` })
+                                }
+                            })
+                            .catch(error => {
+                                return res.status(500).json({ message: error.message })
+                            })
+                    })
+            })
+            .catch(error => console.log(error.message))
+    }
+}
+
+// Middleware pour éviter qu'un rôle qui est dans la même hiérachie qu'un autre puisse modifier son contenu (mdp ou username) 
+const correctUser = (req, res, next) => {
+    User.findOne({ where: { username: req.username } })
+        .then(authUser => {
+            console.log(authUser.id, parseInt(req.params.id))
+            if (authUser.id === parseInt(req.params.id)) {
+                next()
+            } else {
+                res.status(403).json({ message: "Insufficient rights." })
+            }
+            // Role.findByPk(authUser.RoleId)
+            //     .then(role => {
+            //         // if (rolesHierarchy[role.label].includes('admin')) {
+            //         //     return next()
+            //         // }
+
+            //         if (authUser.id === req.params.id) {
+            //             next()
+            //         } else {
+            //             res.status(403).json({ message: "Droits insuffisants." })
+            //         }
+            //     })
+        })
+        .catch(error => {
+            res.status(500).json({ message: error.message })
+        })
+    // if (result.id !== req.params.id) {
+    //     return res.status(403).json({ message: 'Droits insuffisants.' })
+    // }
+}
+
+
+module.exports = { login, protect, restrict, restrictToOwnUser, correctUser }
