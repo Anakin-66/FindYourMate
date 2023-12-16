@@ -41,4 +41,25 @@ const setRoles = (Role) => {
     Role.create({ label: "edit" })
 }
 
-module.exports = { setUsers, setRoles, setProfils }
+const setGameRanks = (GameRank) => {
+    GameRank.create({ ranksLabel: "bronze" })
+    GameRank.create({ ranksLabel: "silver" })
+    GameRank.create({ ranksLabel: "gold" })
+    GameRank.create({ ranksLabel: "platinium" })
+    GameRank.create({ ranksLabel: "diamond" })
+}
+
+const setGameRoles = (GameRole) => {
+    GameRole.create({ gameRoleLabel: "top" })
+    GameRole.create({ gameRoleLabel: "jungle" })
+    GameRole.create({ gameRoleLabel: "mid" })
+    GameRole.create({ gameRoleLabel: "adc" })
+    GameRole.create({ gameRoleLabel: "support" })
+}
+
+const setGameQueues = (GameQueue) => {
+    GameQueue.create({ queueLabel: "Duo" })
+    GameQueue.create({ queueLabel: "Team" })
+}
+
+module.exports = { setUsers, setRoles, setProfils, setGameRanks, setGameRoles, setGameQueues }
