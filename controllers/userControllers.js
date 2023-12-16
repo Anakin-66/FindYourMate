@@ -60,21 +60,41 @@ const updateUser = (req, res) => {
                             // req.body.username = result.username Pour empêcher que l'utilisateur mette à jour son username
                             return result.update(req.body)
                                 .then(() => {
-                                    res.status(201).json({ message: `L'utilisateur a bien été mis à jour.`, data: result })
+                                    res.status(201).json({ message: `The user was updated.`, data: result })
                                 })
                         })
                 }
             } else {
-                res.status(404).json({ message: `Aucun utilisateur à mettre à jour n'a été trouvé.` })
+                res.status(404).json({ message: `No user to update was found.` })
             }
         })
         .catch(error => {
             if (error instanceof UniqueConstraintError || error instanceof ValidationError) {
                 return res.status(400).json({ message: error.message })
             }
-            res.status(500).json({ message: 'Une erreur est survenue.', data: error.message })
+            res.status(500).json({ message: 'An error as occured.', data: error.message })
+        })
+}
+
+const deleteUser = (req, res) => {
+    User.findByPk(req.params.id)
+        .then((user) => {
+            // B. Si un coworking correspond à l'id alors on exécute la méthode destroy()
+            if (user) {
+                return user.destroy()
+                    // C. Si le coworking est bien supprimé, on affiche un message avec comme data le coworking récupéré dans le .findByPk()
+                    .then(() => {
+                        res.json({ mesage: `The user was deleted.`, data: user })
+                    })
+            } else {
+                // B Si aucun coworking ne correspond à l'id alors on retourne une réponse à POSTMAN
+                res.status(404).json({ mesage: `No user was found.` })
+            }
+        })
+        .catch((error) => {
+            res.status(500).json({ mesage: `The request was not successful.`, data: error.message })
         })
 }
 
 
-module.exports = { findAllUsers, findUserByPk, createUser, updateUser }
+module.exports = { findAllUsers, findUserByPk, createUser, updateUser, deleteUser }

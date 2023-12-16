@@ -1,4 +1,4 @@
-const { User} = require('../db/sequelizeSetup')
+const { User, Role} = require('../db/sequelizeSetup')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken') 
 const SECRET_KEY = require('../configs/tokenData')
@@ -107,7 +107,7 @@ const restrictToOwnUser = (model) => {
                         model.findByPk(req.params.id)
                             .then(ressource => {
                                 if (!ressource) return res.status(404).json({ message: `The resource doesn't exist.` })
-                                if (user.id === coworking.UserId) {
+                                if (user.id === profil.UserId) {
                                     next()
                                 } else {
                                     res.status(403).json({ message: `You're not the author of the resource.` })
