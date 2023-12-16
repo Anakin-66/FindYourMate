@@ -21,7 +21,7 @@ const findProfilByPk = (req, res) => {
             }
         })
         .catch((error) => {
-            res.status(500).json({ message: `Une erreur est survenue.`, data: error.message })
+            res.status(500).json({ message: `An error has occured.`, data: error.message })
         });
 }
 
@@ -50,4 +50,49 @@ const createProfil = (req, res) => {
         })
 }
 
-module.exports = { findAllProfils, findProfilByPk, createProfil }
+const updateProfil = (req, res) => {
+    Profil.findByPk(req.params.id)
+        .then((result) => {
+            if (result) {
+                return result.update(req.body)
+                    .then(() => {
+                        res.status(201).json({ message: 'The profile was updated.', data: result })
+                    })
+
+            } else {
+                res.status(404).json({ message: `No profile was updated.` })
+            }
+        })
+        .catch(error => {
+            if (error instanceof UniqueConstraintError || error instanceof ValidationError) {
+                return res.status(400).json({ message: error.message })
+            }
+            res.status(500).json({ message: 'An error has occured.', data: error.message })
+        })
+};
+
+const deleteProfil = (req, res) => {
+    Profil.findByPk(req.params.id)
+        .then((profil) => {
+
+            if (profil) {
+                return profil.destroy()
+
+                    .then(() => {
+                        res.json({ mesage: `The profile was deleted.`, data: profil })
+                    })
+
+            } else {
+
+                res.status(404).json({ mesage: `No profile found.` })
+            }
+        })
+        .catch((error) => {
+            if (error instanceof UniqueConstraintError || error instanceof ValidationError) {
+                res.status(400).json({ message: error.message })
+            }
+            res.status(500).json({ mesage: `The request was not successful.`, data: error.message })
+        })
+}
+
+module.exports = { findAllProfils, findProfilByPk, createProfil, updateProfil, deleteProfil }

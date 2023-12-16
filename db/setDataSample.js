@@ -32,6 +32,7 @@ const setUsers = async (User) => {
 
 const setProfils = (Profil) => {
     Profil.create({ gameName: "XxKevinxX" })
+    Profil.create({ gameName: "XddMdrr" })
 }
 
 const setRoles = (Role) => {

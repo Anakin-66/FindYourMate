@@ -31,7 +31,7 @@ const InGameQueue = InGameQueueModel(sequelize, DataTypes)
 Role.hasMany(User)
 User.belongsTo(Role)
 
-User.hasMany(Profil)
+User.hasOne(Profil)
 Profil.belongsTo(User)
 
 // Profil.hasMany(InGameRanksModel)

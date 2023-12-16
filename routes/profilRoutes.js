@@ -1,7 +1,8 @@
 const express = require('express')
 const router = express.Router()
-const { findAllProfils, findProfilByPk, createProfil } = require('../controllers/profilControllers')
-const { protect } = require('../controllers/authControllers')
+const { findAllProfils, findProfilByPk, createProfil, updateProfil, deleteProfil } = require('../controllers/profilControllers')
+const { protect, restrictToOwnUser } = require('../controllers/authControllers')
+const { Profil } = require('../db/sequelizeSetup')
 
 
 router
@@ -12,7 +13,7 @@ router
 router
     .route('/:id')
     .get(findProfilByPk)
-    .put()
-    .delete()
+    .put(protect, restrictToOwnUser(Profil), updateProfil)
+    .delete(protect,restrictToOwnUser(Profil), deleteProfil)
 
 module.exports = router
