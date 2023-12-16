@@ -1,8 +1,8 @@
-const { Profil, User } = require('../db/sequelizeSetup')
+const { Profil, User, InGameQueue, InGameRanks, InGameRole } = require('../db/sequelizeSetup')
 const { UniqueConstraintError, ValidationError, QueryTypes } = require('sequelize')
 
 const findAllProfils = (req, res) => {
-    Profil.findAll()
+    Profil.findAll({ include: [User, InGameQueue, InGameRanks, InGameRole] })
         .then((results) => {
             res.json(results)
         })

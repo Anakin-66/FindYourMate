@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
     return sequelize.define('Profil', {
-        gameName: {
+        inGameName: {
             type: DataTypes.STRING,
         },
     }

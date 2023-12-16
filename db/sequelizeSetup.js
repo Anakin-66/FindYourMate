@@ -34,8 +34,13 @@ User.belongsTo(Role)
 User.hasOne(Profil)
 Profil.belongsTo(User)
 
+InGameRanks.hasMany(Profil)
 Profil.belongsTo(InGameRanks)
+
+InGameRole.hasMany(Profil)
 Profil.belongsTo(InGameRole)
+
+InGameQueue.hasMany(Profil)
 Profil.belongsTo(InGameQueue)
 
 
