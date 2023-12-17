@@ -11,5 +11,19 @@ const findAllReviews = (req, res) => {
         })
 }
 
+const findReviewByPk = (req, res) => {
+    Review.findByPk(parseInt(req.params.id))
+    .then(review => {
+        if (review) {
+            res.json({ message: `The review was found`, date: review})
+        } else {
+            res.status(404).json({ message: `Please write the right ID corresponding to the review`})
+        }
+    })
+    .catch(error => {
+        res.status(500).json({message: `An error has occured`, date: error.message})
+    })
+}
 
-module.exports = { findAllReviews }
+
+module.exports = { findAllReviews, findReviewByPk }

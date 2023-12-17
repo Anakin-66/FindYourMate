@@ -1,5 +1,5 @@
 const { Review } = require('../db/sequelizeSetup')
-const { findAllReviews } = require('../controllers/reviewControllers')
+const { findAllReviews, findReviewByPk } = require('../controllers/reviewControllers')
 const express = require('express')
 const router = express.Router()
 
@@ -11,7 +11,7 @@ router
 
 router
     .route('/:id')
-    .get()
+    .get(findReviewByPk)
     .put()
     .delete()
 
