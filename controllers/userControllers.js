@@ -84,15 +84,15 @@ const deleteUser = (req, res) => {
                 return user.destroy()
                     // C. Si le coworking est bien supprimé, on affiche un message avec comme data le coworking récupéré dans le .findByPk()
                     .then(() => {
-                        res.json({ mesage: `The user was deleted.`, data: user })
+                        res.json({ message: `The user was deleted.`, data: user })
                     })
             } else {
                 // B Si aucun coworking ne correspond à l'id alors on retourne une réponse à POSTMAN
-                res.status(404).json({ mesage: `No user was found.` })
+                res.status(404).json({ message: `No user was found.` })
             }
         })
         .catch((error) => {
-            res.status(500).json({ mesage: `The request was not successful.`, data: error.message })
+            res.status(500).json({ message: `The request was not successful.`, data: error.message })
         })
 }
 
