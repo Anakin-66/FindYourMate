@@ -1,10 +1,12 @@
+const { Review } = require('../db/sequelizeSetup')
+const { findAllReviews } = require('../controllers/reviewControllers')
 const express = require('express')
 const router = express.Router()
 
 
 router 
     .route('/')
-    .get()
+    .get(findAllReviews)
     .post()
 
 router

@@ -41,6 +41,10 @@ const setRoles = (Role) => {
     Role.create({ label: "edit" })
 }
 
+const setReviews = (Review) => {
+    Review.create({ content: "Super expérience de jeu avec X", rating: 5 })
+}
+
 const setGameRanks = (GameRank) => {
     GameRank.create({ ranksLabel: "bronze" })
     GameRank.create({ ranksLabel: "silver" })
@@ -62,4 +66,4 @@ const setGameQueues = (GameQueue) => {
     GameQueue.create({ queueLabel: "Team" })
 }
 
-module.exports = { setUsers, setRoles, setProfils, setGameRanks, setGameRoles, setGameQueues }
+module.exports = { setUsers, setRoles, setProfils, setReviews, setGameRanks, setGameRoles, setGameQueues }

@@ -14,9 +14,11 @@ app.get('/', (req, res) => {
 
 const userRouter = require('./routes/userRoutes')
 const profilRouter = require('./routes/profilRoutes')
+const reviewRouter = require ('./routes/reviewRoutes')
 
 app.use('/api/users', userRouter)
 app.use('/api/profils', profilRouter)
+app.use('/api/reviews', reviewRouter)
 
 
 
