@@ -1,8 +1,19 @@
-const { Profil, User, InGameRanks, InGameRole } = require('../db/sequelizeSetup')
+const { Profil, User, InGameRanks, InGameRole, sequelize } = require('../db/sequelizeSetup')
 const { UniqueConstraintError, ValidationError, QueryTypes } = require('sequelize')
 
 const findAllProfils = (req, res) => {
     Profil.findAll({ include: [InGameRanks, InGameRole] })
+        .then((results) => {
+            res.json(results)
+        })
+        .catch((error) => {
+            res.status(500).json(error.message)
+        })
+}
+
+const findAllProfilsRawSql = (req, res) => {
+    sequelize.query("SELECT inGameName FROM `profils` LEFT JOIN `reviews` ON profils.id = reviews.ProfilId",
+        { type: QueryTypes.SELECT })
         .then((results) => {
             res.json(results)
         })
@@ -95,4 +106,4 @@ const deleteProfil = (req, res) => {
         })
 }
 
-module.exports = { findAllProfils, findProfilByPk, createProfil, updateProfil, deleteProfil }
+module.exports = { findAllProfils, findProfilByPk, createProfil, updateProfil, deleteProfil, findAllProfilsRawSql }
