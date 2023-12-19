@@ -61,9 +61,6 @@ const setGameRoles = (GameRole) => {
     GameRole.create({ gameRoleLabel: "support" })
 }
 
-const setGameQueues = (GameQueue) => {
-    GameQueue.create({ queueLabel: "Duo" })
-    GameQueue.create({ queueLabel: "Team" })
-}
 
-module.exports = { setUsers, setRoles, setProfils, setReviews, setGameRanks, setGameRoles, setGameQueues }
+
+module.exports = { setUsers, setRoles, setProfils, setReviews, setGameRanks, setGameRoles }
