@@ -3,6 +3,9 @@ module.exports = (sequelize, DataTypes) => {
         inGameName: {
             type: DataTypes.STRING,
         },
+        profilBio: {
+            type: DataTypes.STRING,
+        }
     }
     );
 }

@@ -12,7 +12,7 @@ const findAllProfils = (req, res) => {
 }
 
 const findAllProfilsRawSql = (req, res) => {
-    sequelize.query("SELECT inGameName FROM `profils` LEFT JOIN `reviews` ON profils.id = reviews.ProfilId",
+    sequelize.query("SELECT inGameName, profilBio FROM `profils` LEFT JOIN `reviews` ON profils.id = reviews.ProfilId",
         { type: QueryTypes.SELECT })
         .then((results) => {
             res.json(results)
