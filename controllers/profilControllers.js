@@ -1,8 +1,8 @@
-const { Profil, User, InGameRanks, InGameRole, sequelize } = require('../db/sequelizeSetup')
+const { Profil, User, InGameRanks, InGameRole, sequelize, Review } = require('../db/sequelizeSetup')
 const { UniqueConstraintError, ValidationError, QueryTypes } = require('sequelize')
 
 const findAllProfils = (req, res) => {
-    Profil.findAll({ include: [InGameRanks, InGameRole] })
+    Profil.findAll({ include: [InGameRanks, InGameRole, User, Review] })
         .then((results) => {
             res.json(results)
         })
@@ -23,7 +23,7 @@ const findAllProfilsRawSql = (req, res) => {
 }
 
 const findProfilByPk = (req, res) => {
-    Profil.findByPk(parseInt(req.params.id))
+    Profil.findByPk(parseInt(req.params.id), { include: [InGameRanks, InGameRole, Review, User] })
         .then(profil => {
             if (profil) {
                 res.json({ message: `The profile was found.`, data: profil })
