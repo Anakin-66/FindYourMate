@@ -17,10 +17,14 @@ app.get('/', (req, res) => {
 const userRouter = require('./routes/userRoutes')
 const profilRouter = require('./routes/profilRoutes')
 const reviewRouter = require ('./routes/reviewRoutes')
+const inGameRanksRouter = require ('./routes/inGameRanksRoutes')
+const inGameRoleRouter = require ('./routes/inGameRoleRoutes')
 
 app.use('/api/users', userRouter)
 app.use('/api/profils', profilRouter)
 app.use('/api/reviews', reviewRouter)
+app.use('/api/ingameranks', inGameRanksRouter)
+app.use('/api/ingamerole', inGameRoleRouter)
 
 
 

@@ -31,8 +31,8 @@ const setUsers = async (User) => {
 
 
 const setProfils = (Profil) => {
-    Profil.create({ inGameName: "Draconiros", profilBio:"Cherche quelqu'un de bon pour m'apprendre à jouer" })
-    Profil.create({ inGameName: "Orukam", profilBio:"Cherche quelqu'un de bon pour m'apprendre à jouer" })
+    // Profil.create({ inGameName: "Draconiros", profilBio: "Cherche quelqu'un de bon pour m'apprendre à jouer" })
+    // Profil.create({ inGameName: "Orukam", profilBio: "Cherche quelqu'un de bon pour m'apprendre à jouer" })
 }
 
 const setRoles = (Role) => {
@@ -47,10 +47,10 @@ const setReviews = (Review) => {
 
 const setGameRanks = (GameRank) => {
     GameRank.create({ ranksLabel: "bronze" })
-    GameRank.create({ ranksLabel: "silver" })
-    GameRank.create({ ranksLabel: "gold" })
-    GameRank.create({ ranksLabel: "platinium" })
-    GameRank.create({ ranksLabel: "diamond" })
+    GameRank.create({ ranksLabel: "argent" })
+    GameRank.create({ ranksLabel: "or" })
+    GameRank.create({ ranksLabel: "platine" })
+    GameRank.create({ ranksLabel: "diamant" })
 }
 
 const setGameRoles = (GameRole) => {
