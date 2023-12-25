@@ -18,9 +18,9 @@ const findUserByPk = (req, res) => {
     User.findByPk(parseInt(req.params.id))
         .then(user => {
             if (user) {
-                res.json({ message: `User has been found`, date: user })
+                res.json({ message: `User has been found`, data: user })
             } else {
-                res.status(404).json({ message: `User not found`, date: user })
+                res.status(404).json({ message: `User not found`, data: user })
             }
         })
         .catch(error => {
@@ -57,16 +57,25 @@ const updateUser = (req, res) => {
                         .then((hash) => {
                             req.body.password = hash
 
-                            // req.body.username = result.username Pour empêcher que l'utilisateur mette à jour son username
+                            req.body.username = result.username
                             return result.update(req.body)
                                 .then(() => {
-                                    res.status(201).json({ message: `The user was updated.`, data: result })
+                                    res.status(201).json({ message: `The password was updated.`, data: result })
                                 })
                         })
                 }
             } else {
                 res.status(404).json({ message: `No user to update was found.` })
             }
+             // if (result) {
+                //     return result.update(req.body)
+                //         .then(() => {
+                //             res.status(201).json({ message: 'The username was updated.', data: result })
+                //         })
+
+                // } else {
+                //     res.status(404).json({ message: `No username was updated.` })
+                // }
         })
         .catch(error => {
             if (error instanceof UniqueConstraintError || error instanceof ValidationError) {

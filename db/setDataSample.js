@@ -31,8 +31,8 @@ const setUsers = async (User) => {
 
 
 const setProfils = (Profil) => {
-    // Profil.create({ inGameName: "Draconiros", profilBio: "Cherche quelqu'un de bon pour m'apprendre à jouer" })
-    // Profil.create({ inGameName: "Orukam", profilBio: "Cherche quelqu'un de bon pour m'apprendre à jouer" })
+    Profil.create({ inGameName: "Draconiros", profilBio: "Cherche quelqu'un de bon pour m'apprendre à jouer" })
+    Profil.create({ inGameName: "Orukam", profilBio: "Cherche quelqu'un de bon pour m'apprendre à jouer" })
 }
 
 const setRoles = (Role) => {
@@ -45,22 +45,7 @@ const setReviews = (Review) => {
     Review.create({ content: "Super expérience de jeu avec X", rating: 5 })
 }
 
-const setGameRanks = (GameRank) => {
-    GameRank.create({ ranksLabel: "bronze" })
-    GameRank.create({ ranksLabel: "argent" })
-    GameRank.create({ ranksLabel: "or" })
-    GameRank.create({ ranksLabel: "platine" })
-    GameRank.create({ ranksLabel: "diamant" })
-}
-
-const setGameRoles = (GameRole) => {
-    GameRole.create({ gameRoleLabel: "top" })
-    GameRole.create({ gameRoleLabel: "jungle" })
-    GameRole.create({ gameRoleLabel: "mid" })
-    GameRole.create({ gameRoleLabel: "adc" })
-    GameRole.create({ gameRoleLabel: "support" })
-}
 
 
 
-module.exports = { setUsers, setRoles, setProfils, setReviews, setGameRanks, setGameRoles }
+module.exports = { setUsers, setRoles, setProfils, setReviews }

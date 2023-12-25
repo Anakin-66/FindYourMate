@@ -4,9 +4,7 @@ const UserModel = require('../models/userModel')
 const RoleModel = require('../models/roleModel')
 const ReviewModel = require('../models/reviewModel')
 const ProfilModel = require('../models/profilModel')
-const InGameRanksModel = require('../models/inGameRanksModel')
-const InGameRoleModel = require('../models/inGameRoleModel')
-const { setUsers, setRoles, setProfils, setReviews, setGameRanks, setGameRoles } = require('../db/setDataSample')
+const { setUsers, setRoles, setProfils, setReviews } = require('../db/setDataSample')
 
 
 // Instance qui va communiquer avec Xampp
@@ -22,8 +20,7 @@ const User = UserModel(sequelize, DataTypes)
 const Role = RoleModel(sequelize, DataTypes)
 const Review = ReviewModel(sequelize, DataTypes)
 const Profil = ProfilModel(sequelize, DataTypes)
-const InGameRanks = InGameRanksModel(sequelize, DataTypes)
-const InGameRole = InGameRoleModel(sequelize, DataTypes)
+
 
 // Relation des tables
 Role.hasMany(User)
@@ -38,11 +35,6 @@ Review.belongsTo(User)
 Profil.hasMany(Review)
 Review.belongsTo(Profil)
 
-InGameRanks.hasOne(Profil)
-Profil.belongsTo(InGameRanks)
-
-InGameRole.hasOne(Profil)
-Profil.belongsTo(InGameRole)
 
 
 
@@ -53,8 +45,6 @@ sequelize.sync({ force: true })
         setRoles(Role)
         setProfils(Profil)
         setReviews(Review)
-        setGameRanks(InGameRanks)
-        setGameRoles(InGameRole)
     })
     .catch(error => {
         console.log(error)
@@ -65,4 +55,4 @@ sequelize.authenticate()
 .then(() => console.log('La connexion à la base de données a bien été établie.'))
 .catch(error => console.error(`Impossible de se connecter à la base de données ${error}`))
 
-module.exports = { sequelize, User, Role, Review, Profil, InGameRanks, InGameRole }
+module.exports = { sequelize, User, Role, Review, Profil }
