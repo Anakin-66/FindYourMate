@@ -4,7 +4,7 @@ const setUsers = async (User) => {
     try {
         const usersData = [
             { username: "Nathan", password: "lol", RoleId: 1 },
-            { username: "Mathias", password: "lol", RoleId: 2 },
+            { username: "Mathias", password: "lol", RoleId: 3 },
             { username: "Maxime", password: "lol", RoleId: 3 },
             { username: "Dorian", password: "lol", RoleId: 3 }
         ];

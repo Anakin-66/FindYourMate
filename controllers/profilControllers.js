@@ -2,7 +2,7 @@ const { Profil, User, sequelize, Review } = require('../db/sequelizeSetup')
 const { UniqueConstraintError, ValidationError, QueryTypes } = require('sequelize')
 
 const findAllProfils = (req, res) => {
-    Profil.findAll({ include: [ User, Review] })
+    Profil.findAll({ include: [User, Review] })
         .then((results) => {
             res.json(results)
         })
@@ -23,7 +23,7 @@ const findAllProfilsRawSql = (req, res) => {
 }
 
 const findProfilByPk = (req, res) => {
-    Profil.findByPk(parseInt(req.params.id), { include: [ Review, User] })
+    Profil.findByPk(parseInt(req.params.id), { include: [Review, User] })
         .then(profil => {
             if (profil) {
                 res.json({ message: `The profile was found.`, data: profil })
@@ -37,29 +37,39 @@ const findProfilByPk = (req, res) => {
 }
 
 const createProfil = (req, res) => {
-
     User.findOne({ where: { username: req.username } })
         .then(user => {
             if (!user) {
-                return res.status(404).json({ message: `The user could'nt be found.` })
+                return res.status(404).json({ message: `The user couldn't be found.` });
             }
-            const newProfil = { ...req.body, UserId: user.id }
 
-            Profil.create(newProfil)
-                .then((profil) => {
-                    res.status(201).json({ message: 'The profile was created', data: profil })
-                })
-                .catch((error) => {
-                    if (error instanceof UniqueConstraintError || error instanceof ValidationError) {
-                        return res.status(400).json({ message: error.message })
+            Profil.findOne({ where: { UserId: user.id } })
+                .then(existingProfil => {
+                    if (existingProfil) {
+                        return res.status(400).json({ message: 'The user already has a profile.' });
                     }
-                    res.status(500).json({ message: `The profile could'nt be created`, data: error.message })
+
+                    const newProfil = { ...req.body, UserId: user.id };
+
+                    Profil.create(newProfil)
+                        .then((profil) => {
+                            res.status(201).json({ message: 'The profile was created', data: profil });
+                        })
+                        .catch((error) => {
+                            if (error instanceof UniqueConstraintError || error instanceof ValidationError) {
+                                return res.status(400).json({ message: error.message });
+                            }
+                            res.status(500).json({ message: `The profile couldn't be created`, data: error.message });
+                        });
                 })
+                .catch(error => {
+                    res.status(500).json({ message: `Error while checking existing profile`, data: error.message });
+                });
         })
         .catch(error => {
-            res.status(500).json(error.message)
-        })
-}
+            res.status(500).json({ message: error.message });
+        });
+};
 
 const updateProfil = (req, res) => {
     Profil.findByPk(req.params.id)
