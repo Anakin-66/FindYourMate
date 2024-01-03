@@ -72,24 +72,33 @@ const createProfil = (req, res) => {
 };
 
 const updateProfil = (req, res) => {
+    console.log('Profile ID to update:', req.params.id);
     Profil.findByPk(req.params.id)
         .then((result) => {
             if (result) {
-                return result.update(req.body)
-                    .then(() => {
-                        res.status(201).json({ message: 'The profile was updated.', data: result })
-                    })
+                console.log('Profile found:', result);
 
+                return result.update(req.body)
+                    .then((updatedProfile) => {
+                        console.log('Profile updated:', updatedProfile);
+                        res.status(201).json({ message: 'The profile was updated.', data: updatedProfile });
+                    })
+                    .catch((updateError) => {
+                        console.error('Error updating profile:', updateError);
+                        res.status(500).json({ message: 'An error occurred during the update.', data: updateError.message });
+                    });
             } else {
-                res.status(404).json({ message: `No profile was updated.` })
+                console.log('No profile found for update.');
+                res.status(404).json({ message: `No profile was updated.` });
             }
         })
         .catch(error => {
+            console.error('Error finding profile:', error);
             if (error instanceof UniqueConstraintError || error instanceof ValidationError) {
-                return res.status(400).json({ message: error.message })
+                return res.status(400).json({ message: error.message });
             }
-            res.status(500).json({ message: 'An error has occured.', data: error.message })
-        })
+            res.status(500).json({ message: 'An error has occurred.', data: error.message });
+        });
 };
 
 const deleteProfil = (req, res) => {

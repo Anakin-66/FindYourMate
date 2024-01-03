@@ -107,7 +107,7 @@ const restrictToOwnUser = (model) => {
                         model.findByPk(req.params.id)
                             .then(ressource => {
                                 if (!ressource) return res.status(404).json({ message: `The resource doesn't exist.` })
-                                if (user.id === profil.UserId) {
+                                if (user.id === ressource.UserId) {
                                     next()
                                 } else {
                                     res.status(403).json({ message: `You're not the author of the resource.` })
