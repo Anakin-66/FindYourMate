@@ -24,7 +24,8 @@ const login = (req, res) => {
                         return res.status(401).json({ message: `The password is incorrect.` })
                     }
                     const token = jwt.sign({
-                        data: result.username
+                        data: result.username, 
+                        dataId: result.id
                     }, SECRET_KEY, { expiresIn: '1h' });
 
                     // res.cookie('findyourmateapi_jwt', token)

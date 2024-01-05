@@ -3,10 +3,10 @@ const bcrypt = require('bcrypt')
 const setUsers = async (User) => {
     try {
         const usersData = [
-            { username: "Nathan", password: "lol", RoleId: 1 },
-            { username: "Mathias", password: "lol", RoleId: 3 },
-            { username: "Maxime", password: "lol", RoleId: 3 },
-            { username: "Dorian", password: "lol", RoleId: 3 }
+            { id: 1, username: "Nathan", password: "lol", RoleId: 1 },
+            { id: 2, username: "Mathias", password: "lol", RoleId: 3 },
+            { id: 3, username: "Maxime", password: "lol", RoleId: 3 },
+            { id: 4, username: "Dorian", password: "lol", RoleId: 3 }
         ];
 
         // Promise.all pour attendre toutes les promesses de hachage
@@ -31,20 +31,26 @@ const setUsers = async (User) => {
 
 
 const setProfils = (Profil) => {
-    Profil.create({ inGameName: "Draconiros", profilBio: "Cherche quelqu'un de bon pour m'apprendre à jouer" })
-    Profil.create({ inGameName: "Orukam", profilBio: "Cherche quelqu'un de bon pour m'apprendre à jouer" })
-    Profil.create({ inGameName: "Tylezia", profilBio: "Cherche quelqu'un de bon pour m'apprendre à jouer" })
-    Profil.create({ inGameName: "Meriana", profilBio: "Cherche quelqu'un de bon pour m'apprendre à jouer" })
+    return Promise.all([
+        Profil.create({ id: 1, inGameName: "Draconiros", profilBio: "Cherche quelqu'un de bon pour m'apprendre à jouer", UserId: 1 }),
+        Profil.create({ id: 2, inGameName: "Orukam", profilBio: "Cherche quelqu'un de bon pour m'apprendre à jouer", UserId: 2 }),
+        Profil.create({ id: 3, inGameName: "Tylezia", profilBio: "Cherche quelqu'un de bon pour m'apprendre à jouer", UserId: 3 }),
+        Profil.create({ id: 4, inGameName: "Meriana", profilBio: "Cherche quelqu'un de bon pour m'apprendre à jouer", UserId: 4 })
+    ])
 }
 
 const setRoles = (Role) => {
-    Role.create({ label: "superadmin" })
-    Role.create({ label: "admin" })
-    Role.create({ label: "edit" })
+    return Promise.all([
+        Role.create({ id: 1, label: "superadmin" }),
+        Role.create({ id: 2, label: "admin" }),
+        Role.create({ id: 3, label: "edit" })
+    ])
 }
 
 const setReviews = (Review) => {
-    Review.create({ content: "Super expérience de jeu avec X", rating: 5 })
+    return Promise.all([
+        Review.create({ content: "Super expérience de jeu avec X", rating: 5 })
+    ])
 }
 
 

@@ -2,14 +2,17 @@ const { Review, User } = require('../db/sequelizeSetup')
 const { ValidationError } = require('sequelize')
 
 const findAllReviews = (req, res) => {
-    Review.findAll({ include: User })
+    Review.findAll({ 
+        where: { ProfilId: req.params.id }, 
+        include: User 
+    })
         .then((results) => {
-            res.json(results)
+            res.json(results);
         })
         .catch((error) => {
-            res.status(500).json(error.message)
-        })
-}
+            res.status(500).json(error.message);
+        });
+};
 
 const findReviewByPk = (req, res) => {
     Review.findByPk(parseInt(req.params.id))

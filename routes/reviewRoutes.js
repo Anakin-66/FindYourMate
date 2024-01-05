@@ -7,8 +7,11 @@ const router = express.Router()
 
 router 
     .route('/')
-    .get(findAllReviews)
     .post(protect, createReview)
+
+router
+    .route('/profil/:id')
+    .get(findAllReviews)
 
 router
     .route('/:id')

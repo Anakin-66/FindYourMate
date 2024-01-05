@@ -38,7 +38,7 @@ Review.belongsTo(Profil)
 
 // Profil.beforeCreate(async (profile, options) => {
 //     const existingProfile = await Profil.findOne({ where: { UserId: profile.UserId } });
-  
+
 //     if (existingProfile) {
 //       // Si un profil existe déjà pour cet utilisateur, empêcher la création
 //       throw new Error('Un utilisateur ne peut avoir qu\'un seul profil.');
@@ -47,11 +47,11 @@ Review.belongsTo(Profil)
 
 // Synchronisation avec la BDD
 sequelize.sync({ force: true })
-    .then(() => {
-        setUsers(User)
-        setRoles(Role)
-        setProfils(Profil)
-        setReviews(Review)
+    .then(async () => {
+        await setRoles(Role)
+        await setUsers(User)
+        await setProfils(Profil)
+        await setReviews(Review)
     })
     .catch(error => {
         console.log(error)
@@ -59,7 +59,7 @@ sequelize.sync({ force: true })
 
 
 sequelize.authenticate()
-.then(() => console.log('La connexion à la base de données a bien été établie.'))
-.catch(error => console.error(`Impossible de se connecter à la base de données ${error}`))
+    .then(() => console.log('La connexion à la base de données a bien été établie.'))
+    .catch(error => console.error(`Impossible de se connecter à la base de données ${error}`))
 
 module.exports = { sequelize, User, Role, Review, Profil }
