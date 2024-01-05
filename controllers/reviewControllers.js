@@ -2,9 +2,19 @@ const { Review, User } = require('../db/sequelizeSetup')
 const { ValidationError } = require('sequelize')
 
 const findAllReviews = (req, res) => {
-    Review.findAll({ 
-        where: { ProfilId: req.params.id }, 
-        include: User 
+    Review.findAll({ where: { include: User } })
+        .then((results) => {
+            res.json(results);
+        })
+        .catch((error) => {
+            res.status(500).json(error.message);
+        });
+};
+
+const findAllReviewsOfOneProfile = (req, res) => {
+    Review.findAll({
+        where: { ProfilId: req.params.id },
+        include: User
     })
         .then((results) => {
             res.json(results);
@@ -73,7 +83,7 @@ const deleteReview = (req, res) => {
             if (review) {
                 return review.destroy()
                     .then(() => {
-                        res.json({ message: `The review was deleted`, data: review })
+                        res.status(200).json({ message: `The review was deleted`, data: review })
                     })
             } else {
                 res.status(400).json({ message: `No review was found` })
@@ -81,11 +91,11 @@ const deleteReview = (req, res) => {
         }))
         .catch((error => {
             if (error instanceof ValidationError) {
-                res.status(400).json({ message: error.message})
+                res.status(400).json({ message: error.message })
             }
-            res.status(500).json({ message: `The request was not successful`, data: error.message})
+            res.status(500).json({ message: `The request was not successful`, data: error.message })
         }))
 }
 
 
-module.exports = { findAllReviews, findReviewByPk, createReview, updateReview, deleteReview }
+module.exports = {findAllReviews, findAllReviewsOfOneProfile, findReviewByPk, createReview, updateReview, deleteReview }
