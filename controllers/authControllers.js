@@ -12,7 +12,6 @@ const rolesHierarchy = {
 
 // Middleware login
 const login = (req, res) => {
-    console.log(req.body);
     User.scope('withPassword').findOne({ where: { username: req.body.username } })
         .then((result) => {
             if (!result) {
@@ -28,7 +27,6 @@ const login = (req, res) => {
                         dataId: result.id
                     }, SECRET_KEY, { expiresIn: '1h' });
 
-                    // res.cookie('findyourmateapi_jwt', token)
                     res.json({ message: `Login successful`, data: token })
                 })
                 .catch(error => {

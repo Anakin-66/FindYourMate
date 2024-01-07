@@ -88,15 +88,12 @@ const updateUser = (req, res) => {
 const deleteUser = (req, res) => {
     User.findByPk(req.params.id)
         .then((user) => {
-            // B. Si un coworking correspond à l'id alors on exécute la méthode destroy()
             if (user) {
                 return user.destroy()
-                    // C. Si le coworking est bien supprimé, on affiche un message avec comme data le coworking récupéré dans le .findByPk()
                     .then(() => {
                         res.json({ message: `The user was deleted.`, data: user })
                     })
             } else {
-                // B Si aucun coworking ne correspond à l'id alors on retourne une réponse à POSTMAN
                 res.status(404).json({ message: `No user was found.` })
             }
         })

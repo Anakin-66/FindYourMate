@@ -11,6 +11,22 @@ const findAllProfils = (req, res) => {
         })
 }
 
+// Pour optimiser les données (récupération des trois dernier profils sur la home page)
+// const findLatestProfils = (req, res) => {
+//     Profil.findAll({
+//         include: [User, Review],
+//         order: [['createdAt', 'DESC']],
+//         limit: 3
+//     })
+//     .then((results) => {
+//         res.json(results);
+//     })
+//     .catch((error) => {
+//         console.error('Error:', error);
+//         res.status(500).json({ error: 'Internal Server Error' });
+//     });
+// };
+
 const findAllProfilsRawSql = (req, res) => {
     sequelize.query("SELECT inGameName, profilBio FROM `profils` LEFT JOIN `reviews` ON profils.id = reviews.ProfilId",
         { type: QueryTypes.SELECT })

@@ -21,7 +21,7 @@ router
     .delete(protect, restrict('superadmin'), deleteProfil)
 
 // router
-//     .route('/ownProfil/:id')
-//     .delete(protect, restrictToOwnUser(Profil), deleteProfil)
+//     .route('/latestProfils')
+//     .get(findLatestProfils)
 
 module.exports = router
