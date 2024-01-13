@@ -36,15 +36,6 @@ Profil.hasMany(Review)
 Review.belongsTo(Profil)
 
 
-// Profil.beforeCreate(async (profile, options) => {
-//     const existingProfile = await Profil.findOne({ where: { UserId: profile.UserId } });
-
-//     if (existingProfile) {
-//       // Si un profil existe déjà pour cet utilisateur, empêcher la création
-//       throw new Error('Un utilisateur ne peut avoir qu\'un seul profil.');
-//     }
-//   });
-
 // Synchronisation avec la BDD
 sequelize.sync({ force: true })
     .then(async () => {

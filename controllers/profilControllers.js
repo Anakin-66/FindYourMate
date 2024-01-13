@@ -64,8 +64,9 @@ const createProfil = (req, res) => {
                     if (existingProfil) {
                         return res.status(400).json({ message: 'The user already has a profile.' });
                     }
-
-                    const newProfil = { ...req.body, UserId: user.id };
+                    // id: user.id pour que quand le profil est supprimer son id soit égal au user.id
+                    const newProfil = { ...req.body, UserId: user.id, id: user.id };
+                    console.log(newProfil);
 
                     Profil.create(newProfil)
                         .then((profil) => {
@@ -117,26 +118,31 @@ const updateProfil = (req, res) => {
         });
 };
 
+// La fonction deleteProfil gère la suppression d'un profil en fonction de son identifiant.
 const deleteProfil = (req, res) => {
+    // Utilisation de la méthode findByPk pour trouver le profil par son identifiant.
     Profil.findByPk(req.params.id)
         .then((profil) => {
-
+            // Vérifie si le profil éxiste.
             if (profil) {
                 return profil.destroy()
-
+                    // Si il existe, il est supprimé.
                     .then(() => {
                         res.json({ mesage: `The profile was deleted.`, data: profil })
                     })
 
             } else {
-
+                // Sinon, une réponse 404 est renvoyé.
                 res.status(404).json({ mesage: `No profile found.` })
             }
         })
+        // Gestion d'erreurs
         .catch((error) => {
+            // Utilisation de classe propre à Sequelize en cas de violation d'unicité.
             if (error instanceof UniqueConstraintError || error instanceof ValidationError) {
                 res.status(400).json({ message: error.message })
             }
+            // En cas d'autres erreurs, renvoie une réponse 500.
             res.status(500).json({ mesage: `The request was not successful.`, data: error.message })
         })
 }
