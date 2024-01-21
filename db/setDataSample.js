@@ -49,7 +49,7 @@ const setRoles = (Role) => {
 
 const setReviews = (Review) => {
     return Promise.all([
-        Review.create({ content: "Super expérience de jeu avec X", rating: 5 })
+        Review.create({ content: "Super expérience de jeu avec X", rating: 5, UserId: 1, ProfilId: 2 })
     ])
 }
 
